@@ -14,5 +14,5 @@ class Transaction: public Entity {
         Transaction(string type, Book* book, Date date);
         ~Transaction();
     
-        void display();
+        void display() const;
 };

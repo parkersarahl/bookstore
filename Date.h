@@ -1,3 +1,5 @@
+#pragma once
+
 // Date class
 class Date {
     private:
