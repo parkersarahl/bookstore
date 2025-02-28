@@ -1,4 +1,7 @@
 #include "Transaction.h"
+#include "Book.h"
+#include "Date.h"
+#include "Entity.h"
 #include <iostream>
 #include <string>
 

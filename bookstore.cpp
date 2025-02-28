@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "entity.h"
-#include "book.h"
-#include "Transaction.h"
-#include "Date.h"
+#include "Entity.cpp"
+#include "Book.cpp"
+#include "Transaction.cpp"
+#include "Date.cpp"
 
 using namespace std;
 

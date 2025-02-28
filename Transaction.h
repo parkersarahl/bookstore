@@ -1,7 +1,7 @@
 #include <string>
-#include "entity.h"
-#include "book.h"
-#include "date.h"
+#include "Entity.h"
+#include "Book.h"
+#include "Date.h"
 
 using namespace std;
 

@@ -6,6 +6,7 @@ class Date {
         int day, month, year;
     public:
         Date(int d = 1, int m = 1, int y = 2000);
+        ~Date();
         void display() const;
     };
 
