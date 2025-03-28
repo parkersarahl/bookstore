@@ -14,21 +14,30 @@ class Node {
 public:
     Book* book;
     Node* next;
-    Node(Book* b) : book(b), next(nullptr) {}
+    Node* prev; // Pointer to the previous node in the list
+    Node(Book* b) : book(b), next(nullptr), prev(nullptr){}
 };
 
-// Catalog class (Linked List for Book Management)
+// Catalog class (Doubly Linked List for Book Management)
 class Catalog {
 private:
     Node* head;
+    Node* tail;
 public:
-    Catalog() : head(nullptr) {}
+    Catalog() : head(nullptr), tail(nullptr) {}
 
     // Add book
     void addBook(Book* b) {
         Node* newNode = new Node(b);
-        newNode->next = head;
-        head = newNode;
+        if(!head){
+            head =tail =newNode;
+        }
+        else{
+            // If the list is not empty, add the new node to the end of the list
+            tail->next = newNode; // Link the new node to the end of the list
+            newNode -> prev =tail; // Link the previous tail to the new node
+            tail = newNode; // Update tail to new node
+        }   
     }
 
     // Search book
@@ -49,6 +58,46 @@ public:
             temp->book->display();
             temp = temp->next;
         }
+    }
+
+        // Remove book
+        void removeBook(const string& title) {
+            Node* temp = head;
+            while (temp) {
+                if (temp->book->getTitle() == title) {
+                    if (temp->prev) {
+                        temp->prev->next = temp->next;
+                    } else {
+                        head = temp->next;
+                    }
+                    if (temp->next) {
+                        temp->next->prev = temp->prev;
+                    } else {
+                        tail = temp->prev;
+                    }
+                    delete temp;
+                    return;
+                }
+                temp = temp->next;
+            }
+        }
+    //Decrease Stock
+      // Decrease stock
+      void decreaseStock(const string& title) {
+        Node* temp = head;
+        while (temp) {
+            if (temp->book->getTitle() == title) {
+                if (temp->book->getStock() > 0) {
+                    temp->book->setStock(temp->book->getStock() - 1);
+                    cout << "Stock updated. Remaining stock: " << temp->book->getStock() << endl;
+                } else {
+                    cout << "Stock is already at 0. Cannot decrease further." << endl;
+                }
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Book not found in catalog." << endl;
     }
 };
 
@@ -104,6 +153,7 @@ int main() {
                     Transaction sale("Sale", foundBook, date);
                     cout << "\nTransaction Details:\n";
                     sale.display();
+                    catalog.decreaseStock(transactionTitle); // Decrease stock after transaction
                 } else {
                     cout << "\nBook Not Found for transaction.\n";
                 }
