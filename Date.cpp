@@ -8,7 +8,7 @@ Date:: Date(int day, int month, int year){
     this->year = year;
 }
 // Destructor
-Date:: ~Date(){}
+Date::~Date(){}
 
 void Date:: display()const {
     cout << "Date: " << day << "/" << month << "/" << year << endl;

@@ -67,21 +67,77 @@ int main() {
 
     cout << "Bookstore Catalog:\n";
     catalog.displayBooks();
-
-    // Searching for a book
-    string searchTitle = "Effective C++";
-    Book* foundBook = catalog.searchBook(searchTitle);
-    if (foundBook) {
-        cout << "\nBook Found: ";
-        foundBook->display();
-    } else {
-        cout << "\nBook Not Found.\n";
+    //User interface
+    bool finished = false;
+    while(!finished){
+        cout << "\nSelect: (0)Output (1)Search for a book (2)Process a transaction (3) Add a book  (4)Exit: " << endl; // User interface for input
+        int choice;
+        cin >> choice; // Get user input for choice
+        switch (choice){
+            case 0: // Output all books in the catalog
+                cout << "\nBookstore Catalog:\n";
+                catalog.displayBooks();
+                break;
+            case 1: { // Search for a book by title 
+                cout << "Enter the title of the book to search: ";
+                string searchTitle;
+                cin.ignore(); // Clear the input buffer
+                getline(cin, searchTitle); // Read the entire line for the title
+                Book* foundBook = catalog.searchBook(searchTitle);
+                if (foundBook) {
+                    cout << "\nBook Found: ";
+                    foundBook->display();
+                } else {
+                    cout << "\nBook Not Found.\n";
+                }
+                break;
+            }
+            case 2: { // Process a transaction
+                cout << "Processing a transaction...\n";
+                cout << "Enter the title of the book for the transaction: ";
+                string transactionTitle;
+                cin.ignore(); // Clear the input buffer
+                getline(cin, transactionTitle); // Read the entire line for the title
+                Book* foundBook = catalog.searchBook(transactionTitle);
+                if (foundBook) {
+                    Date date(27, 2, 2025); // Example date for the transaction
+                    Transaction sale("Sale", foundBook, date);
+                    cout << "\nTransaction Details:\n";
+                    sale.display();
+                } else {
+                    cout << "\nBook Not Found for transaction.\n";
+                }
+                break;
+            }
+            case 3: { // Add a new book to the catalog
+                string title, author;
+                double price;
+                int quantity;
+                cout << "Enter book title: ";
+                cin.ignore(); // Clear the input buffer
+                getline(cin, title);
+                cout << "Enter author name: ";
+                getline(cin, author);
+                cout << "Enter price: ";
+                cin >> price;
+                cout << "Enter quantity: ";
+                cin >> quantity;
+                Book* newBook = new Book(title, author, price, quantity);
+                catalog.addBook(newBook);
+                cout << "\nBook added successfully.\n";
+                break;
+            }
+            case 4: { // Exit the program
+                finished = true;
+                cout << "Exiting the program.\n";
+                break;
+            }
+            default: { // Handle invalid input
+                cout << "Invalid choice. Please select again.\n";
+                break;
+            }
+        }
     }
-
-    // Processing a transaction
-    Transaction sale("Sale", book1, Date(27, 2, 2025));
-    cout << "\nTransaction Details:\n";
-    sale.display();
 
     return 0;
 }
