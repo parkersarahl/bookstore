@@ -21,12 +21,16 @@ int main() {
     catalog.addBook(book1);
     catalog.addBook(book2);
 
+    //Invoking Copy Constructor of book
+    Book* book3 = new Book(*book1);
+    catalog.addBook(book3);
+
     cout << "Bookstore Catalog:\n";
     catalog.displayBooks();
     //User interface
     bool finished = false;
     while(!finished){
-        cout << "\nSelect: (0)Output (1)Search for a book (2)Process a transaction (3) Add a book (4) Remove a book (5) Find the lowest priced book  (6)Exit: " << endl; // User interface for input
+        cout << "\nSelect: (0)Output (1)Search for a book (2)Process a transaction (3) Add a book (4) Remove a book (5) Find the lowest priced book (6) Total books created (7)Exit " << endl; // User interface for input
         int choice;
         cin >> choice; // Get user input for choice
         switch (choice){
@@ -103,7 +107,11 @@ int main() {
                 }
                 break;
             }
-            case 6: { // Exit the program
+            case 6: {//Total Books created
+                cout << "Total Books created: " << Book::getBookCount() << endl;
+                break;
+            }
+            case 7: { // Exit the program
                 finished = true;
                 cout << "Exiting the program.\n";
                 break;

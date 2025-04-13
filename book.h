@@ -11,8 +11,10 @@ class Book : public Entity {
         string author;
         double price;
         int stock;
+        static int bookCount; 
     public:
         Book(string title, string author, double price, int stock);
+        Book(const Book& other); // Copy constructor
         ~Book();
     
         // Accessors
@@ -27,4 +29,7 @@ class Book : public Entity {
     
         // Override display function
         void display() const;
+
+        //Static function to get Book count
+        static int getBookCount();
     };
