@@ -5,102 +5,9 @@
 #include "Book.cpp"
 #include "Transaction.cpp"
 #include "Date.cpp"
+#include "Catalog.cpp"
 
 using namespace std;
-
-
-// Node for Linked List
-class Node {
-public:
-    Book* book;
-    Node* next;
-    Node* prev; // Pointer to the previous node in the list
-    Node(Book* b) : book(b), next(nullptr), prev(nullptr){}
-};
-
-// Catalog class (Doubly Linked List for Book Management)
-class Catalog {
-private:
-    Node* head;
-    Node* tail;
-public:
-    Catalog() : head(nullptr), tail(nullptr) {}
-
-    // Add book
-    void addBook(Book* b) {
-        Node* newNode = new Node(b);
-        if(!head){
-            head =tail =newNode;
-        }
-        else{
-            // If the list is not empty, add the new node to the end of the list
-            tail->next = newNode; // Link the new node to the end of the list
-            newNode -> prev =tail; // Link the previous tail to the new node
-            tail = newNode; // Update tail to new node
-        }   
-    }
-
-    // Search book
-    Book* searchBook(const string& title) {
-        Node* temp = head;
-        while (temp) {
-            if (temp->book->getTitle() == title)
-                return temp->book;
-            temp = temp->next;
-        }
-        return nullptr;
-    }
-
-    // Display books
-    void displayBooks() const {
-        Node* temp = head;
-        while (temp) {
-            temp->book->display();
-            temp = temp->next;
-        }
-    }
-
-        // Remove book
-        void removeBook(const string& title) {
-            Node* temp = head;
-            while (temp) {
-                if (temp->book->getTitle() == title) {
-                    if (temp->prev) {
-                        temp->prev->next = temp->next;
-                    } else {
-                        head = temp->next;
-                    }
-                    if (temp->next) {
-                        temp->next->prev = temp->prev;
-                    } else {
-                        tail = temp->prev;
-                    }
-                    delete temp;
-                    return;
-                }
-                temp = temp->next;
-            }
-        }
-    //Decrease Stock
-      // Decrease stock
-      void decreaseStock(const string& title) {
-        Node* temp = head;
-        while (temp) {
-            if (temp->book->getTitle() == title) {
-                if (temp->book->getStock() > 0) {
-                    temp->book->setStock(temp->book->getStock() - 1);
-                    cout << "Stock updated. Remaining stock: " << temp->book->getStock() << endl;
-                } else {
-                    cout << "Stock is already at 0. Cannot decrease further." << endl;
-                }
-                return;
-            }
-            temp = temp->next;
-        }
-        cout << "Book not found in catalog." << endl;
-    }
-};
-
 
 
 // Main User Interface
@@ -119,7 +26,7 @@ int main() {
     //User interface
     bool finished = false;
     while(!finished){
-        cout << "\nSelect: (0)Output (1)Search for a book (2)Process a transaction (3) Add a book  (4)Exit: " << endl; // User interface for input
+        cout << "\nSelect: (0)Output (1)Search for a book (2)Process a transaction (3) Add a book (4) Remove a book (5) Find the lowest priced book  (6)Exit: " << endl; // User interface for input
         int choice;
         cin >> choice; // Get user input for choice
         switch (choice){
@@ -177,7 +84,26 @@ int main() {
                 cout << "\nBook added successfully.\n";
                 break;
             }
-            case 4: { // Exit the program
+            case 4: { //Remove a book from the catalog
+                cout << "Enter the title of the book to remove: ";
+                string removeTitle;
+                cin.ignore(); // Clear the input buffer
+                getline(cin, removeTitle); // Read the entire line for the title
+                catalog.removeBook(removeTitle);
+                cout << "\nBook removed successfully.\n";
+                break;
+            }
+            case 5: {//Find the lowest priced book
+                Book* lowestPriceBook = catalog.findLowestPriceBook();
+                if (lowestPriceBook) {
+                    cout << "\nLowest Priced Book: ";
+                    lowestPriceBook->display();
+                } else {
+                    cout << "\nNo books in the catalog.\n";
+                }
+                break;
+            }
+            case 6: { // Exit the program
                 finished = true;
                 cout << "Exiting the program.\n";
                 break;
