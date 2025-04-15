@@ -13,8 +13,8 @@ class Book : public Entity {
         int stock;
         static int bookCount; 
     public:
-        Book(string title, string author, double price, int stock);
-        Book(const Book& other); // Copy constructor
+        Book(string title, string author, double price, int stock, bool countAsNew = true);
+        Book(const Book& other, bool countAsNew = true); // Copy constructor
         ~Book();
     
         // Accessors

@@ -3,7 +3,7 @@
 
 // Node Constructor for Linked List
 Node:: Node (Book*b) {
-            book = new Book(*b); // Deep copy of the book object
+            book = new Book(*b, false); // Deep copy of the book object
             next = nullptr;
             prev = nullptr;
         }
